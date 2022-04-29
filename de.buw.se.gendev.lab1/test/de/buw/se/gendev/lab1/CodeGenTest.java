@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.util.Map;
 
@@ -59,7 +60,6 @@ class CodeGenTest {
 
     @Test
     void testFailInstance() {
-//        Lab1Package.eINSTANCE.eClass();
         Diagnostic diag = diagnoseModel(failInst);
         if (diag.getSeverity() != Diagnostic.WARNING) {
             System.out.println("Validation of " + failInst + "should fail with an error.");
@@ -74,16 +74,26 @@ class CodeGenTest {
 
         // Obtain a new resource set
         ResourceSet resSet = new ResourceSetImpl();
-        resSet.getPackageRegistry().put(Lab1Package.eNS_URI, Lab1Package.eINSTANCE);
+        registerPackage(resSet);
         // Get the resource
         Resource resource = resSet.getResource(URI.createURI(fileName), true);
 
         return Diagnostician.INSTANCE.validate(resource.getContents().get(0));
     }
 
+    private void registerPackage(ResourceSet resSet) {
+        try {
+            Class<?> c = this.getClass().getClassLoader().loadClass("de.buw.se.gendev.lab1.Lab1Package");
+            Field fNS = c.getField("eNS_URI");
+            Field fI = c.getField("eINSTANCE");
+            resSet.getPackageRegistry().put(fNS.get(null).toString(), fI.get(null));
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
+
     @Test
     void testPassInstance() {
-        Lab1Package.eINSTANCE.eClass();
         Diagnostic diag = diagnoseModel(passInst);
         if (diag.getSeverity() != Diagnostic.OK) {
             System.out.println("Validation of " + passInst + "should pass.");

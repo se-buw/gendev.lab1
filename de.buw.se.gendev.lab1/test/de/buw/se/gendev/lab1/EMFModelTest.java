@@ -49,7 +49,7 @@ class EMFModelTest {
         }
     }
 
-    private String printIssues(Diagnostic d) {
+    protected String printIssues(Diagnostic d) {
         final StringBuilder sb = new StringBuilder("Issues: ");
         for (final Diagnostic child : d.getChildren()) {
             sb.append(System.lineSeparator());

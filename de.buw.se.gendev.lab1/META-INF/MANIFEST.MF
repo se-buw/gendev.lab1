@@ -1,10 +1,16 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: de.buw.se.gendev.lab1
-Bundle-SymbolicName: de.buw.se.gendev.lab1; singleton:=true
+Bundle-Name: %pluginName
+Bundle-SymbolicName: de.buw.se.gendev.lab1;singleton:=true
+Automatic-Module-Name: de.buw.se.gendev.lab1
 Bundle-Version: 0.1.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.core.runtime,
  org.junit,
  org.junit.jupiter.api,
  org.eclipse.emf.ecore.xmi;bundle-version="2.16.0"
+Bundle-ActivationPolicy: lazy

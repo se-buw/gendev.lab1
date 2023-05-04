@@ -17,10 +17,13 @@ import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.junit.jupiter.api.Test;
 
-class CodeGenTest {
+class CodeGenAndOclTest {
 
-    protected final String failInst = "model/fail.xmi";
-    protected final String passInst = "model/pass.xmi";
+    protected final String failInst1 = "model/c1/fail.xmi";
+    protected final String passInst1 = "model/c1/pass.xmi";
+
+    protected final String failInst2 = "model/c2/fail.xmi";
+    protected final String passInst2 = "model/c2/pass.xmi";
 
     @Test
     void testCodeGenerated() {
@@ -43,28 +46,72 @@ class CodeGenTest {
     }
 
     @Test
-    void testFailInstanceExists() {
-        File f = new File(failInst);
+    void testFailInstance1Exists() {
+        File f = new File(failInst1);
         if (!f.exists()) {
-            fail("Instance that fails validation must be in file " + failInst);
+            fail("Instance that fails validation must be in file " + failInst1);
         }
     }
 
     @Test
-    void testPassInstanceExists() {
-        File f = new File(passInst);
+    void testFailInstance1() {
+    	Diagnostic diag = diagnoseModel(failInst1);
+    	if (diag.getSeverity() != Diagnostic.WARNING) {
+    		System.out.println("Validation of " + failInst1 + "should fail with an error.");
+    		fail("Validation should fail.");
+    	}
+    }
+
+    @Test
+    void testPassInstance1Exists() {
+        File f = new File(passInst1);
         if (!f.exists()) {
-            fail("Instance that passes validation must be in file " + passInst);
+            fail("Instance that passes validation must be in file " + passInst1);
+        }
+    }
+
+    
+    @Test
+    void testPassInstance1() {
+    	Diagnostic diag = diagnoseModel(passInst1);
+    	if (diag.getSeverity() != Diagnostic.OK) {
+    		System.out.println("Validation of " + passInst1 + "should pass.");
+    		fail("Validation should pass.");
+    	}
+    }
+    
+    @Test
+    void testFailInstance2Exists() {
+        File f = new File(failInst2);
+        if (!f.exists()) {
+            fail("Instance that fails validation must be in file " + failInst2);
         }
     }
 
     @Test
-    void testFailInstance() {
-        Diagnostic diag = diagnoseModel(failInst);
-        if (diag.getSeverity() != Diagnostic.WARNING) {
-            System.out.println("Validation of " + failInst + "should fail with an error.");
-            fail("Validation should fail.");
+    void testFailInstance2() {
+    	Diagnostic diag = diagnoseModel(failInst2);
+    	if (diag.getSeverity() != Diagnostic.WARNING) {
+    		System.out.println("Validation of " + failInst2 + "should fail with an error.");
+    		fail("Validation should fail.");
+    	}
+    }
+
+    @Test
+    void testPassInstance2Exists() {
+        File f = new File(passInst2);
+        if (!f.exists()) {
+            fail("Instance that passes validation must be in file " + passInst2);
         }
+    }
+    
+    @Test
+    void testPassInstance2() {
+    	Diagnostic diag = diagnoseModel(passInst2);
+    	if (diag.getSeverity() != Diagnostic.OK) {
+    		System.out.println("Validation of " + passInst2 + "should pass.");
+    		fail("Validation should pass.");
+    	}
     }
 
     private Diagnostic diagnoseModel(String fileName) {
@@ -89,15 +136,6 @@ class CodeGenTest {
             resSet.getPackageRegistry().put(fNS.get(null).toString(), fI.get(null));
         } catch (Exception e) {
             // TODO: handle exception
-        }
-    }
-
-    @Test
-    void testPassInstance() {
-        Diagnostic diag = diagnoseModel(passInst);
-        if (diag.getSeverity() != Diagnostic.OK) {
-            System.out.println("Validation of " + passInst + "should pass.");
-            fail("Validation should pass.");
         }
     }
 

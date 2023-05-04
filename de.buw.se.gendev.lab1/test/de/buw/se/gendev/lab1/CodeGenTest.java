@@ -1,6 +1,6 @@
 package de.buw.se.gendev.lab1;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,0 +1,61 @@
+name: Run EMF Plugin Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y wget unzip xvfb
+    
+    - name: Download Eclipse SDK
+      run: |
+        wget https://se-cloud.medien.uni-weimar.de/index.php/s/jkAf57sNMKyjPGz/download/eclipse-2024-03M.tar.gz
+        tar -xzf eclipse-2024-03M.tar.gz
+        mv eclipse ~/eclipse
+    - name: Start Xvfb
+      run: |
+        Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+        echo "DISPLAY=:99" >> $GITHUB_ENV
+    
+    - name: Run Tests
+      run: |
+        ~/eclipse/eclipse \
+          -application org.eclipse.ant.core.antRunner \
+          -buildfile "${GITHUB_WORKSPACE}/de.buw.se.gendev.lab1/build.xml" \
+          -nosplash \
+          -consolelog \
+          -data "${GITHUB_WORKSPACE}/de.buw.se.gendev.lab1" \
+          clean codegen test
+      shell: /usr/bin/bash -e {0}
+    
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    # Generate Report
+    - run: python generate_report.py
+
+    # switch to badges branch
+    - run: git checkout badges || git checkout -b badges
+    
+    # commit and push badges if badges have changed
+    - name: Commit changes to points bar
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add 'report.md'
+        git commit -m "Add/Update report" || exit 0
+        git push -f origin badges

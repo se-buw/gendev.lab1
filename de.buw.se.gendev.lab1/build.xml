@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="de.buw.se.gendev.lab1" default="build.jars" basedir=".">
+
+	<property name="p2.build.repo" value="file:${buildDirectory}/buildRepo" />
+	<property name="basews" value="${ws}" />
+	<property name="baseos" value="${os}" />
+	<property name="basearch" value="${arch}" />
+	<property name="basenl" value="${nl}" />
+	<property name="bundleId" value="de.buw.se.gendev.lab1" />
+	<property name="bundleVersion" value="0.1.0.202504231326" />
+	<property name="p2.publishonerror" value="false" />
+
+	<!-- Compiler settings. -->
+	<property name="javacFailOnError" value="false" />
+	<property name="javacDebugInfo" value="on" />
+	<property name="javacVerbose" value="false" />
+	<property name="logExtension" value=".log" />
+	<property name="compilerArg" value="" />
+	<property name="compilation.prereq.log" value="${buildDirectory}/prereqErrors.log" />
+	<property name="javacSource" value="17" />
+	<property name="javacTarget" value="17" />
+	<condition property="dir_bootclasspath" value="${java.home}/../Classes">
+		<and>
+			<os family="mac" />
+			<available file="${java.home}/../Classes" type="dir" />
+		</and>
+	</condition>
+	<property name="dir_bootclasspath" value="${java.home}/lib" />
+	<path id="path_bootclasspath">
+		<fileset dir="${dir_bootclasspath}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	<property name="bootclasspath" refid="path_bootclasspath" />
+	<condition property="bundleBootClasspath" value="${JavaSE-17}">
+		<isset property="JavaSE-17" />
+	</condition>
+	<condition property="bundleJavacSource" value="17">
+		<isset property="JavaSE-17" />
+	</condition>
+	<property name="bundleJavacSource" value="${javacSource}" />
+	<property name="bundleJavacTarget" value="${javacTarget}" />
+	<property name="bundleBootClasspath" value="${bootclasspath}" />
+
+	<path id="@dot.classpath">
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.emf.ecore_2.36.0.v20240203-0859.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.osgi_3.19.0.v20240213-1246.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.fx.osgi_3.9.0.202210162353.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.osgi.compatibility.state_1.2.1000.v20240213-1057.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.core.runtime_3.31.0.v20240215-1631.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.equinox.common_3.19.0.v20240214-0846.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.core.jobs_3.15.200.v20231214-1526.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.equinox.registry_3.12.0.v20240213-1057.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.equinox.preferences_3.11.0.v20240210-0844.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.osgi.service.prefs_1.1.2.202109301733.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.core.contenttype_3.9.300.v20231218-0909.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.equinox.app_1.7.0.v20240213-1427.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.osgi.service.event_1.4.1.202109301733.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.emf.common_2.30.0.v20231210-0956.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.core.resources_3.20.100.v20240209-1706.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.core.resources.win32.x86_64_3.5.500.v20220812-1420.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.ant.core_3.7.300.v20231214-1526.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.core.variables_3.6.300.v20231214-1012.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.core.expressions_3.9.300.v20240207-1044.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.core.filesystem_1.10.300.v20240124-1325.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.core.filesystem.win32.x86_64_1.4.300.v20220812-1420.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.ocl.pivot_1.20.0.v20240305-1416.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/com.google.guava_33.0.0.jre.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/com.google.guava.failureaccess_1.0.2.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/com.google.inject_7.0.0.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/jakarta.inject.jakarta.inject-api_2.0.1.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.aopalliance_1.0.0.v20230720-0728.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/com.google.errorprone.annotations_2.23.0.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.apache.log4j_1.2.24.v20221221-2012.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.xtext.logging_2.34.0.v20240227-0940.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.jdt.annotation_2.3.0.v20240111-2306.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.emf.codegen.ecore_2.37.0.v20240203-1010.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.jdt.core_3.37.0.v20240215-1452.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.text_3.14.0.v20240207-1054.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.core.commands_3.12.0.v20240214-1640.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.team.core_3.10.300.v20240125-0912.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.compare.core_3.8.400.v20240124-0947.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.jdt.core.compiler.batch_3.37.0.v20240215-1558.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.jdt.launching_3.21.100.v20240214-1729.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.debug.core_3.21.300.v20240109-1022.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.jdt.debug_3.21.300.v20240124-0949/jdimodel.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.emf.codegen_2.23.0.v20230211-1150.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.emf.ecore.xmi_2.37.0.v20231208-1346.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.emf.edit_2.21.0.v20231208-1346.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.emf.ecore.change_2.16.0.v20231208-1346.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.ocl.common_1.20.0.v20240305-1416.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.ocl.examples.codegen_2.20.0.v20240305-1416.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.uml2.codegen.ecore_2.5.2.v20221116-1811.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.uml2.types_2.5.0.v20221116-1811.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.uml2.common_2.5.0.v20221116-1811.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.xtext.util_2.34.0.v20240227-0940.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.xtend.lib_2.34.0.v20240227-0940.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.xtext.xbase.lib_2.34.0.v20240227-0940.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.xtend.lib.macro_2.34.0.v20240227-0940.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.objectweb.asm_9.6.0.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/junit-jupiter-api_5.10.2.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/junit-platform-commons_1.10.2.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.apiguardian.api_1.1.2.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.opentest4j_1.3.0.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.ocl.pivot.uml_1.20.0.v20240305-1416.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.emf.validation_1.8.3.202305230712.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.uml2.uml.resources_5.5.0.v20221116-1811.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.uml2.uml_5.5.0.v20221116-1811.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.emf.mapping.ecore2xml_2.12.0.v20230211-1150.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.uml2.uml.profile.standard_1.5.0.v20221116-1811.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.uml2_5.5.3.v20221116-1811.jar" />
+	</path>
+
+	<target name="init" depends="properties">
+		<condition property="pluginTemp" value="${buildTempFolder}/plugins">
+			<isset property="buildTempFolder" />
+		</condition>
+		<property name="pluginTemp" value="${basedir}" />
+		<condition property="build.result.folder" value="${pluginTemp}/de.buw.se.gendev.lab1_0.1.0.202504231326">
+			<isset property="buildTempFolder" />
+		</condition>
+		<property name="build.result.folder" value="${basedir}" />
+		<property name="temp.folder" value="${basedir}/temp.folder" />
+		<property name="plugin.destination" value="${basedir}" />
+		<condition property="p2.publish.parts" value="true">
+			<istrue value="${p2.gathering}" />
+		</condition>
+		<property name="compilation.problem.marker" value="${build.result.folder}/compilation.problem" />
+		<condition property="compilation.problem.marker.exists" value="true">
+			<and>
+				<available file="${compilation.problem.marker}" />
+				<isfalse value="${p2.publishonerror}" />
+			</and>
+		</condition>
+	</target>
+
+	<target name="properties" if="eclipse.running">
+		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />
+
+	</target>
+
+	<target name="build.update.jar" depends="init" description="Build the plug-in: de.buw.se.gendev.lab1 for an update site.">
+		<delete dir="${temp.folder}" />
+		<mkdir dir="${temp.folder}" />
+		<antcall target="build.jars" />
+		<antcall target="gather.bin.parts">
+			<param name="destination.temp.folder" value="${temp.folder}/" />
+		</antcall>
+		<jar destfile="${plugin.destination}/de.buw.se.gendev.lab1_0.1.0.202504231326.jar" basedir="${temp.folder}/de.buw.se.gendev.lab1_0.1.0.202504231326" filesetmanifest="merge" />
+		<delete dir="${temp.folder}" />
+	</target>
+
+	<target name="@dot.nestedJars">
+	</target>
+	<target name="@dot" depends="init,@dot.nestedJars" unless="@dot" description="Create jar: de.buw.se.gendev.lab1 @dot.">
+		<delete dir="${build.result.folder}/@dot" />
+		<mkdir dir="${build.result.folder}/@dot" />
+
+		<!-- compile the source code -->
+		<javac destdir="${build.result.folder}/@dot" failonerror="${javacFailOnError}" verbose="${javacVerbose}" debug="${javacDebugInfo}" includeAntRuntime="no" source="${bundleJavacSource}" target="${bundleJavacTarget}">
+			<compilerarg line="${compilerArg}" compiler="${build.compiler}" />
+			<classpath refid="@dot.classpath" />
+			<src path="src-gen/" />
+			<src path="test/" />
+			<compilerarg value="@${basedir}/javaCompiler...args" compiler="org.eclipse.jdt.core.JDTCompilerAdapter" />
+			<compilerarg line="-log &apos;${build.result.folder}/@dot${logExtension}&apos;" compiler="org.eclipse.jdt.core.JDTCompilerAdapter" />
+		</javac>
+		<antcall target="checkCompilationResults" />
+		<!-- Copy necessary resources -->
+		<copy todir="${build.result.folder}/@dot" failonerror="true" overwrite="false">
+			<fileset dir="src-gen/">
+				<exclude name="**/*.java" />
+				<exclude name="**/package.htm*" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="src.zip" depends="init" unless="src.zip">
+		<mkdir dir="${build.result.folder}" />
+		<antcall target="zip.src.zip" />
+	</target>
+	<target name="zip.src.zip">
+		<zip destfile="${build.result.folder}/src.zip" filesonly="false" whenempty="skip" update="false">
+			<fileset dir="src-gen/">
+				<include name="**/*.java" />
+			</fileset>
+		</zip>
+	</target>
+	<target name="copy.src.zip">
+		<copy todir="${source.destination.folder}/" failonerror="true" overwrite="true">
+			<fileset dir="src-gen/">
+				<include name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="build.jars" depends="init" description="Compile classes and build nested jars for the plug-in: de.buw.se.gendev.lab1.">
+		<delete file="${compilation.problem.marker}" quiet="true" />
+		<available property="@dot" file="${build.result.folder}/@dot" />
+		<antcall target="@dot" />
+	</target>
+
+	<target name="checkCompilationResults" if="compilation.error.occured">
+		<echo file="${compilation.problem.marker}" message="de.buw.se.gendev.lab1_0.1.0.202504231326${line.separator}compilation.error.occured=${compilation.error.occured}" />
+		<eclipse.logCompileError log="${compilation.prereq.log}" bundle="de.buw.se.gendev.lab1_0.1.0.202504231326">
+		</eclipse.logCompileError>
+	</target>
+
+	<target name="build.sources" depends="init">
+		<available property="src.zip" file="${build.result.folder}/src.zip" />
+		<antcall target="src.zip" />
+	</target>
+
+	<target name="publish.bin.parts" depends="init" if="p2.publish.parts" unless="compilation.problem.marker.exists">
+		<mkdir dir="${build.result.folder}/de.buw.se.gendev.lab1_0.1.0.202504231326" />
+		<copy todir="${build.result.folder}" failonerror="true" overwrite="true">
+			<fileset dir="${basedir}">
+				<include name="META-INF/MANIFEST.MF" />
+				<include name="plugin.xml" />
+				<include name="fragment.xml" />
+			</fileset>
+		</copy>
+		<eclipse.versionReplacer path="${build.result.folder}" version="0.1.0.202504231326" />
+		<antcall target="apitools.generation">
+			<param name="projectLocation" value="${basedir}" />
+			<param name="binary.folders" value="${build.result.folder}/@dot" />
+			<param name="projectName" value="${bundleId}_${bundleVersion}" />
+			<param name="target.folder" value="${build.result.folder}" />
+		</antcall>
+		<eclipse.gatherBundle metadataRepository="${p2.build.repo}" artifactRepository="${p2.build.repo}" buildResultFolder="${build.result.folder}" baseDirectory="${basedir}" />
+	</target>
+
+	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
+		<mkdir dir="${destination.temp.folder}/de.buw.se.gendev.lab1_0.1.0.202504231326" />
+		<copy todir="${destination.temp.folder}/de.buw.se.gendev.lab1_0.1.0.202504231326" failonerror="true" overwrite="false">
+			<fileset dir="${build.result.folder}/@dot">
+				<include name="**" />
+			</fileset>
+		</copy>
+		<copy todir="${destination.temp.folder}/de.buw.se.gendev.lab1_0.1.0.202504231326" failonerror="true" overwrite="true">
+			<fileset dir="${basedir}">
+				<include name="model/" />
+				<include name="META-INF/" />
+				<include name="plugin.xml" />
+				<include name="plugin.properties" />
+			</fileset>
+		</copy>
+		<eclipse.versionReplacer path="${destination.temp.folder}/de.buw.se.gendev.lab1_0.1.0.202504231326" version="0.1.0.202504231326" />
+		<antcall target="apitools.generation">
+			<param name="projectLocation" value="${basedir}" />
+			<param name="binary.folders" value="${build.result.folder}/@dot" />
+			<param name="projectName" value="${bundleId}_${bundleVersion}" />
+			<param name="target.folder" value="${destination.temp.folder}/de.buw.se.gendev.lab1_0.1.0.202504231326" />
+		</antcall>
+	</target>
+
+	<target name="build.zips" depends="init">
+	</target>
+
+	<target name="gather.sources" depends="init" if="destination.temp.folder">
+		<mkdir dir="${destination.temp.folder}/de.buw.se.gendev.lab1_0.1.0.202504231326" />
+		<copy file="${build.result.folder}/src.zip" todir="${destination.temp.folder}/de.buw.se.gendev.lab1_0.1.0.202504231326" failonerror="false" overwrite="false" />
+		<antcall target="copy.src.includes">
+			<param name="source.destination.folder" value="${destination.temp.folder}/de.buw.se.gendev.lab1_0.1.0.202504231326" />
+		</antcall>
+	</target>
+
+	<target name="gather.individual.sources" depends="init">
+		<antcall target="copy.src.zip">
+			<param name="source.destination.folder" value="${destination.temp.folder}" />
+		</antcall>
+		<antcall target="copy.src.includes">
+			<param name="source.destination.folder" value="${destination.temp.folder}" />
+		</antcall>
+	</target>
+
+	<target name="copy.src.includes" depends="init">
+	</target>
+
+	<target name="gather.logs" depends="init" if="destination.temp.folder">
+		<mkdir dir="${destination.temp.folder}/de.buw.se.gendev.lab1_0.1.0.202504231326" />
+		<copy todir="${destination.temp.folder}/de.buw.se.gendev.lab1_0.1.0.202504231326" failonerror="false" overwrite="false">
+			<fileset dir="${build.result.folder}">
+				<include name="@dot${logExtension}" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="clean" depends="init" description="Clean the plug-in: de.buw.se.gendev.lab1 of all the zips, jars and logs created.">
+		<delete dir="${build.result.folder}/@dot" />
+		<delete file="${build.result.folder}/src.zip" />
+		<delete file="${plugin.destination}/de.buw.se.gendev.lab1_0.1.0.202504231326.jar" />
+		<delete file="${plugin.destination}/de.buw.se.gendev.lab1_0.1.0.202504231326.zip" />
+		<delete dir="${temp.folder}" />
+		<delete dir="${basedir}/reports" />
+		<delete file="${compilation.problem.marker}" quiet="true" />
+	</target>
+
+	<target name="refresh" depends="init" if="eclipse.running" description="Refresh this folder.">
+		<eclipse.convertPath fileSystemPath="C:/Users/Soaib/Documents/Courses/GSE_2024/Ex1/Christine Mathews_333854_assignsubmission_file/de.buw.se.gendev.lab1" property="resourcePath" />
+		<eclipse.refreshLocal resource="${resourcePath}" depth="infinite" />
+	</target>
+
+	<target name="zip.plugin" depends="init" description="Create a zip containing all the elements for the plug-in: de.buw.se.gendev.lab1.">
+		<delete dir="${temp.folder}" />
+		<mkdir dir="${temp.folder}" />
+		<antcall target="build.jars" />
+		<antcall target="build.sources" />
+		<antcall target="gather.bin.parts">
+			<param name="destination.temp.folder" value="${temp.folder}/" />
+		</antcall>
+		<antcall target="gather.sources">
+			<param name="destination.temp.folder" value="${temp.folder}/" />
+		</antcall>
+		<delete>
+			<fileset dir="${temp.folder}">
+				<include name="**/*.bin${logExtension}" />
+			</fileset>
+		</delete>
+		<zip destfile="${plugin.destination}/de.buw.se.gendev.lab1_0.1.0.202504231326.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false" />
+		<delete dir="${temp.folder}" />
+	</target>
+
+	<target name="apitools.generation" if="generateAPIDescription">
+		<apitooling.apigeneration projectName="${projectName}" project="${projectLocation}" binary="${binary.folders}" target="${target.folder}" extramanifests="${extraManifests}" allownonapiproject="${allowNonApiProject}" />
+	</target>
+
+
+	<target name="testXXX" depends="build.jars" description="Run JUnit 5 tests">
+		<mkdir dir="reports" />
+		<java classname="org.junit.platform.console.ConsoleLauncher" fork="true" failonerror="true">
+			<classpath>
+				<!-- <pathelement path="${projectLocation}"/>  You might not need this if @dot is included -->
+				<pathelement path="@dot" />
+				<fileset dir="lib">
+					<include name="junit-platform-console-standalone-*.jar" />
+				</fileset>
+			</classpath>
+
+			<arg value="--scan-class-path" />
+			<!-- This will scan the classpath defined above -->
+			<arg value="--reports-dir" />
+			<arg path="reports" />
+		</java>
+	</target>
+
+
+
+
+	<target name="test" depends="build.jars" description="Run JUnit 5 tests">
+		<mkdir dir="${basedir}/reports" />
+		<junitlauncher>
+			<classpath>
+				<path refid="@dot.classpath" />
+				<pathelement path="${basedir}/@dot" />
+				<pathelement location="${basedir}" />
+				<fileset dir="lib">
+					<include name="junit-platform-console-standalone-*.jar" />
+				</fileset>
+			</classpath>
+			<testclasses outputdir="reports">
+				<fileset dir="${basedir}/@dot">
+					<include name="**/*Test*" />
+				</fileset>
+				<listener type="legacy-brief" sendSysOut="true" />
+				<listener type="legacy-xml" sendSysErr="true" sendSysOut="true" outputdir="reports" />
+				<fork dir="${basedir}" />
+			</testclasses>
+
+		</junitlauncher>
+	</target>
+
+	<target name="codegen">
+		<emf.Ecore2Java model="${basedir}/model/lab1.ecore" genModel="${basedir}/model/lab1.genmodel" modelProject="${basedir}" modelProjectFragmentPath="src-gen" reconcilegenmodel="reload">
+		</emf.Ecore2Java>
+	</target>
+
+
+</project>

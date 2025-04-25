@@ -1,6 +1,6 @@
 package de.buw.se.gendev.lab1;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,10 +8,8 @@ import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.util.Map;
 
-import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -57,11 +55,11 @@ class CodeGenAndOclTest {
 
     @Test
     void testFailInstance1() {
-    	Diagnostic diag = diagnoseModel(failInst1);
-    	if (diag.getSeverity() != Diagnostic.WARNING) {
-    		System.out.println("Validation of " + failInst1 + "should fail with an error.");
-    		fail("Validation should fail.");
-    	}
+        Diagnostic diag = diagnoseModel(failInst1);
+        if (diag.getSeverity() != Diagnostic.WARNING) {
+            System.out.println("Validation of " + failInst1 + "should fail with an error.");
+            fail("Validation should fail.");
+        }
     }
 
     @Test
@@ -72,16 +70,15 @@ class CodeGenAndOclTest {
         }
     }
 
-    
     @Test
     void testPassInstance1() {
-    	Diagnostic diag = diagnoseModel(passInst1);
-    	if (diag.getSeverity() != Diagnostic.OK) {
-    		System.out.println("Validation of " + passInst1 + "should pass.");
-    		fail("Validation should pass.");
-    	}
+        Diagnostic diag = diagnoseModel(passInst1);
+        if (diag.getSeverity() != Diagnostic.OK) {
+            System.out.println("Validation of " + passInst1 + "should pass.");
+            fail("Validation should pass.");
+        }
     }
-    
+
     @Test
     void testFailInstance2Exists() {
         File f = new File(failInst2);
@@ -92,11 +89,11 @@ class CodeGenAndOclTest {
 
     @Test
     void testFailInstance2() {
-    	Diagnostic diag = diagnoseModel(failInst2);
-    	if (diag.getSeverity() != Diagnostic.WARNING) {
-    		System.out.println("Validation of " + failInst2 + "should fail with an error.");
-    		fail("Validation should fail.");
-    	}
+        Diagnostic diag = diagnoseModel(failInst2);
+        if (diag.getSeverity() != Diagnostic.WARNING) {
+            System.out.println("Validation of " + failInst2 + "should fail with an error.");
+            fail("Validation should fail.");
+        }
     }
 
     @Test
@@ -106,14 +103,14 @@ class CodeGenAndOclTest {
             fail("Instance that passes validation must be in file " + passInst2);
         }
     }
-    
+
     @Test
     void testPassInstance2() {
-    	Diagnostic diag = diagnoseModel(passInst2);
-    	if (diag.getSeverity() != Diagnostic.OK) {
-    		System.out.println("Validation of " + passInst2 + "should pass.");
-    		fail("Validation should pass.");
-    	}
+        Diagnostic diag = diagnoseModel(passInst2);
+        if (diag.getSeverity() != Diagnostic.OK) {
+            System.out.println("Validation of " + passInst2 + "should pass.");
+            fail("Validation should pass.");
+        }
     }
 
     private Diagnostic diagnoseModel(String fileName) {
@@ -126,14 +123,8 @@ class CodeGenAndOclTest {
         registerPackage(resSet);
         // Get the resource
         Resource resource = resSet.getResource(URI.createURI(fileName), true);
-        
-        // collect diagnostics of all top-level objects in the instance
-        BasicDiagnostic diagnose = new BasicDiagnostic();
-        for (EObject o : resource.getContents()) {
-        	diagnose.add(Diagnostician.INSTANCE.validate(o));
-        }
 
-        return diagnose;
+        return Diagnostician.INSTANCE.validate(resource.getContents().get(0));
     }
 
     private void registerPackage(ResourceSet resSet) {

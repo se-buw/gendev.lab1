@@ -1,13 +1,14 @@
 package de.buw.se.gendev.lab1;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -33,7 +34,7 @@ class EMFModelTest {
     @Test
     void testModelExists() {
         File f = new File(ecoreFile);
-        assertTrue("Make sure that the original file " + ecoreFile + " has not been deleted or renamed.", f.exists());
+        assertTrue(f.exists(), "Make sure that the original file " + ecoreFile + " has not been deleted or renamed.");
     }
 
     /**
@@ -96,6 +97,33 @@ class EMFModelTest {
         if (numAttr < 8) {
             System.out.println("Found " + numAttr + " out of 8 attributes of all classes defined in model.");
             fail("Make sure to define at least 8 attributes.");
+        }
+    }
+
+    /**
+     * Check whether total of attributes is at least 8. Counts only attributes with
+     * types.
+     */
+    @Test
+    void testNumOCL() {
+        EPackage p = loadPackage();
+
+        int numOCL = 0;
+
+        for (EClassifier c : p.getEClassifiers()) {
+            if (c instanceof EClass) {
+                for (EAnnotation a : ((EClass) c).getEAnnotations()) {
+                    if (a.getSource().contains("Ecore/OCL")) {
+                        numOCL += a.getDetails().keySet().size();
+
+                    }
+                }
+            }
+        }
+
+        if (numOCL < 2) {
+            System.out.println("Found " + numOCL + " out of 2 OCL constraints of all classes defined in model.");
+            fail("Make sure to define at least 2 OCL constraints.");
         }
     }
 

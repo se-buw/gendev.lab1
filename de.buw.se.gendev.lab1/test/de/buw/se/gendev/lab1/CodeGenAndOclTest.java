@@ -8,8 +8,10 @@ import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -123,10 +125,16 @@ class CodeGenAndOclTest {
         registerPackage(resSet);
         // Get the resource
         Resource resource = resSet.getResource(URI.createURI(fileName), true);
+        
+        // collect diagnostics of all top-level objects in the instance
+        BasicDiagnostic diagnose = new BasicDiagnostic();
+        for (EObject o : resource.getContents()) {
+        	diagnose.add(Diagnostician.INSTANCE.validate(o));
+        }
 
-        return Diagnostician.INSTANCE.validate(resource.getContents().get(0));
+        return diagnose;
     }
-
+    
     private void registerPackage(ResourceSet resSet) {
         try {
             Class<?> c = this.getClass().getClassLoader().loadClass("de.buw.se.gendev.lab1.Lab1Package");

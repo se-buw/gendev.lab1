@@ -90,6 +90,7 @@
 		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.emf.ecore.change_2.16.0.v20231208-1346.jar" />
 		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.ocl.common_1.20.0.v20240305-1416.jar" />
 		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.ocl.examples.codegen_2.20.0.v20240305-1416.jar" />
+		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.ocl.ecore_3.20.0.v20240305-1416.jar" />
 		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.uml2.codegen.ecore_2.5.2.v20221116-1811.jar" />
 		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.uml2.types_2.5.0.v20221116-1811.jar" />
 		<pathelement path="/home/runner/eclipse/plugins/org.eclipse.uml2.common_2.5.0.v20221116-1811.jar" />
